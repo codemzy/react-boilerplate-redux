@@ -1,0 +1,65 @@
+@import "base/variables";
+@import "components/nav";
+
+body {
+    background: #1D976C; /* fallback for old browsers */
+    background: -webkit-linear-gradient(#1D976C , #93F9B9); /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(#1D976C , #93F9B9); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    color: $main-color;
+    background-color: #1D976C;
+}
+
+.page-title {
+    color: $main-color;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+input[type=search] {
+    box-shadow: none;
+}
+
+.button.hollow, .button.hollow:focus {
+    color: $main-color;
+    border: 1px solid $main-color;
+    outline: none;
+}
+
+.button.hollow:hover {
+    color: $link-color;
+    border: 1px solid $link-color;
+}
+
+a {
+    color: $link-color;
+}
+
+a.active, a:focus {
+    color: $hover-color;
+    text-decoration: underline;
+    outline: none;
+}
+
+a:hover {
+    color: $hover-color;
+}
+
+#error-modal {
+    color: #313131;
+    .button.hollow {
+        color: #313131;
+        border: 1px solid #313131;
+    }
+    .button.hollow:hover {
+        color: $link-color;
+        border: 1px solid $link-color;
+    }
+}
+
+blockquote {
+    color: $bg1;
+    border-left: 1px solid $bg1;
+    cite {
+        color: $bg1;
+    }
+}
