@@ -1,7 +1,7 @@
 {
-  "name": "react-boilerplate-tests",
+  "name": "react-boilerplate-redux",
   "version": "1.0.0",
-  "description": "React boilerplate with testing",
+  "description": "React boilerplate with redux",
   "main": "index.js",
   "scripts": {
     "test": "karma start",
