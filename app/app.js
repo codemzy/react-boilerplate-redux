@@ -14,5 +14,5 @@ var routes = require('./config/router');
 ReactDOM.render(routes, document.getElementById('app'));
 
 // redux example
-// require('./redux-example.js');
-require('./redux-todoexample.js');
+require('./redux-example.js');
+// require('./redux-todoexample.js');
