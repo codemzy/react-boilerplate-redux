@@ -22,7 +22,16 @@ var reducer = (state = stateDefault, action) => {
 };
 
 // store - passing the reducer as arg
-var store = redux.createStore(reducer);
+var store = redux.createStore(reducer, redux.compose(
+    window.devToolsExtension ? window.devToolsExtension() : f => f
+));
+
+// subscribe to changes in state
+var unsubscribe = store.subscribe(() => {
+    var state = store.getState();
+    console.log('Search is', state.searchText);
+    document.getElementById('app').innerHTML = state.searchText;
+});
 
 // get the current state
 var currentState = store.getState();
@@ -36,5 +45,8 @@ store.dispatch({
     search: 'This is the new search text'
 });
 
-// Has search text changed Object {searchText: "This is the new search text", showCompleted: false, todos: Array[0]}
-console.log('Has search text changed', store.getState());
+// dispatch another action
+store.dispatch({
+    type: 'CHANGE_SEARCH_TEXT',
+    search: 'This is the second search text'
+});

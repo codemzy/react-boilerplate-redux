@@ -16,7 +16,16 @@ var reducer = (state = { name: 'Anonymous' }, action) => {
 };
 
 // store - passing the reducer as arg
-var store = redux.createStore(reducer);
+var store = redux.createStore(reducer, redux.compose(
+    window.devToolsExtension ? window.devToolsExtension() : f => f
+));
+
+// subscribe to changes in state
+var unsubscribe = store.subscribe(() => {
+    var state = store.getState();
+    console.log('Name is', state.name);
+    document.getElementById('app').innerHTML = state.name;
+});
 
 // get the current state
 var currentState = store.getState();
@@ -30,6 +39,11 @@ store.dispatch({
     name: 'Emma'
 });
 
-// see if the reducer works
-// Name should be Emma Object {name: "Emma"}
-console.log('Name should be Emma', store.getState());
+// unsubscribe to changes
+// unsubscribe();
+
+// dispatch another action
+store.dispatch({
+    type: 'CHANGE_NAME',
+    name: 'Julie'
+});
