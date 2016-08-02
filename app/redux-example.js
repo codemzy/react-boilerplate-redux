@@ -4,68 +4,7 @@ var redux = require('redux');
 
 console.log('Starting redux example');
 
-// defaults
-
-var stateDefault = {
-    name: 'Anonymous',
-    hobbies: [],
-    movies: []
-};
-
-var nextHobbyId = 1;
-var nextMovieId = 1;
-
-// reducer
-var oldReducer = (state = stateDefault, action) => {
-    if (action.type === 'CHANGE_NAME') {
-        return {
-            ...state,
-            name: action.name
-        };
-    }
-    if (action.type === 'ADD_HOBBY') {
-        return {
-            ...state,
-            hobbies: [
-                ...state.hobbies,
-                {
-                    id: nextHobbyId++,
-                    hobby: action.hobby
-                }
-            ]
-        };
-    }
-    if (action.type === 'REMOVE_HOBBY') {
-        return {
-            ...state,
-            hobbies: state.hobbies.filter(function (hobby) {
-                return hobby.id !== action.id;
-            })
-        };
-    }
-    if (action.type === 'ADD_MOVIE') {
-        return {
-            ...state,
-            movies: [
-                ...state.movies,
-                {
-                    id: nextMovieId++,
-                    movie: action.movie
-                }
-            ]
-        };
-    }
-    if (action.type === 'REMOVE_MOVIE') {
-        return {
-            ...state,
-            movies: state.movies.filter(function (movie) {
-                return movie.id !== action.id;
-            })
-        };
-    }
-    return state;
-};
-
+// reducers
 
 // reducer to handle the name property in state
 // state is now a string as we are only passed the name element by the new reducer
@@ -78,6 +17,7 @@ var nameReducer = (state = 'Anonymous', action) => {
 };
 
 // reducer for hobbies
+var nextHobbyId = 1;
 // state is now an array because we are only passed the element
 var hobbiesReducer = (state = [], action) => {
     if (action.type === 'ADD_HOBBY') {
@@ -99,6 +39,7 @@ var hobbiesReducer = (state = [], action) => {
 };
 
 // reducer for movies
+var nextMovieId = 1;
 // state is now an array because we are only passed the element
 var moviesReducer = (state = [], action) => {
     if (action.type === 'ADD_MOVIE') {
