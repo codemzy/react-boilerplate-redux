@@ -1,6 +1,7 @@
 'use strict';
 
 var redux = require('redux');
+var axios = require('axios');
 
 console.log('Starting redux example');
 
@@ -100,11 +101,54 @@ var removeMovie = (id) => {
     };
 };
 
+// MAP REDUCER ==============================
+var mapReducer = (state = {isFetching: false, url: false}, action) => {
+    if (action.type === 'START_LOCATION_FETCH') {
+        return {
+            isFetching: true,
+            url: false
+        };
+    }
+    if (action.type === 'COMPLETE_LOCATION_FETCH') {
+        return {
+            isFetching: false,
+            url: action.url
+        };
+    }
+    return state;
+};
+
+// startLocationFetch ACTION GENERATOR
+var startLocationFetch = () => {
+    return {
+        type: 'START_LOCATION_FETCH'
+    };
+};
+
+// completeLocationFetch ACTION GENERATOR
+var completeLocationFetch = (url) => {
+    return {
+        type: 'COMPLETE_LOCATION_FETCH',
+        url: url
+    };
+};
+
+// function to get data from API
+var fetchLocation = () => {
+    store.dispatch(startLocationFetch());
+    axios.get('http://ipinfo.io').then(function(res) {
+        var loc = res.data.loc;
+        var baseUrl = 'https://maps.google.com?q=';
+        store.dispatch(completeLocationFetch(baseUrl + loc));
+    });
+};
+
 // map all the new reducers
 var reducer = redux.combineReducers({
     name: nameReducer,
     hobbies: hobbiesReducer,
-    movies: moviesReducer
+    movies: moviesReducer,
+    map: mapReducer
 });
 
 // store - passing the reducer as arg
@@ -115,9 +159,12 @@ var store = redux.createStore(reducer, redux.compose(
 // subscribe to changes in state
 var unsubscribe = store.subscribe(() => {
     var state = store.getState();
-    console.log('Name is', state.name);
-    document.getElementById('app').innerHTML = state.name;
     console.log('New State', store.getState());
+    if (state.map.isFetching) {
+        document.getElementById('app').innerHTML = 'Loading...';
+    } else if (state.map.url) {
+        document.getElementById('app').innerHTML = '<a href="' + state.map.url + 'target="_blank">View your location</a>';
+    }
 });
 
 // get the current state
@@ -125,6 +172,9 @@ var currentState = store.getState();
 
 // Object {name: "Anonymous"}
 console.log('currentState', currentState);
+
+// fetchLocation
+fetchLocation();
 
  // dispatch an action
 store.dispatch({
