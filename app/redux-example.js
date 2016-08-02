@@ -6,6 +6,7 @@ console.log('Starting redux example');
 
 // reducers
 
+// NAME REDUCER ==============================
 // reducer to handle the name property in state
 // state is now a string as we are only passed the name element by the new reducer
 var nameReducer = (state = 'Anonymous', action) => {
@@ -16,7 +17,15 @@ var nameReducer = (state = 'Anonymous', action) => {
     return state;
 };
 
-// reducer for hobbies
+// Name ACTION GENERATOR
+var changeName = (name) => {
+    return {
+        type: 'CHANGE_NAME',
+        name: name
+    };
+};
+
+// HOBBIES REDUCER ==============================
 var nextHobbyId = 1;
 // state is now an array because we are only passed the element
 var hobbiesReducer = (state = [], action) => {
@@ -38,7 +47,7 @@ var hobbiesReducer = (state = [], action) => {
     return state;
 };
 
-// reducer for movies
+// MOVIES REDUCER ==============================
 var nextMovieId = 1;
 // state is now an array because we are only passed the element
 var moviesReducer = (state = [], action) => {
@@ -91,6 +100,9 @@ store.dispatch({
     name: 'Emma'
 });
 
+// dispatch using action generator
+store.dispatch(changeName('Frank'));
+
 // unsubscribe to changes
 // unsubscribe();
 
@@ -106,11 +118,8 @@ store.dispatch({
     hobby: 'Walking'
 });
 
-// dispatch another action
-store.dispatch({
-    type: 'CHANGE_NAME',
-    name: 'Julie'
-});
+// dispatch using action generator
+store.dispatch(changeName('Julie'));
 
 // dispatch another action
 store.dispatch({
