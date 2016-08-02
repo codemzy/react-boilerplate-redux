@@ -47,6 +47,22 @@ var hobbiesReducer = (state = [], action) => {
     return state;
 };
 
+// addHobby ACTION GENERATOR
+var addHobby = (hobby) => {
+    return {
+        type: 'ADD_HOBBY',
+        hobby: hobby
+    };
+};
+
+// removeHobby ACTION GENERATOR
+var removeHobby = (id) => {
+    return {
+        type: 'REMOVE_HOBBY',
+        id: id
+    };
+};
+
 // MOVIES REDUCER ==============================
 var nextMovieId = 1;
 // state is now an array because we are only passed the element
@@ -66,6 +82,22 @@ var moviesReducer = (state = [], action) => {
             });
     }
     return state;
+};
+
+// addMovie ACTION GENERATOR
+var addMovie = (movie) => {
+    return {
+        type: 'ADD_MOVIE',
+        movie: movie
+    };
+};
+
+// removeMovie ACTION GENERATOR
+var removeMovie = (id) => {
+    return {
+        type: 'REMOVE_MOVIE',
+        id: id
+    };
 };
 
 // map all the new reducers
@@ -112,11 +144,8 @@ store.dispatch({
     hobby: 'Running'
 });
 
-// dispatch another action
-store.dispatch({
-    type: 'ADD_HOBBY',
-    hobby: 'Walking'
-});
+// dispatch another action with action generator
+store.dispatch(addHobby('Walking'));
 
 // dispatch using action generator
 store.dispatch(changeName('Julie'));
@@ -127,26 +156,14 @@ store.dispatch({
     movie: 'Bridge to Terabithia'
 });
 
-// dispatch another action
-store.dispatch({
-    type: 'ADD_MOVIE',
-    movie: 'Flight of the Navigator'
-});
+// dispatch another action with action generator
+store.dispatch(addMovie('Flight of the Navigator'));
 
-// dispatch another action
-store.dispatch({
-    type: 'ADD_MOVIE',
-    movie: 'Eternal sunshine of a spotless mind'
-});
+// dispatch another action with action generator
+store.dispatch(addMovie('Eternal sunshine of a spotless mind'));
 
-// dispatch another action
-store.dispatch({
-    type: 'REMOVE_HOBBY',
-    id: 2
-});
+// dispatch another action with action generator
+store.dispatch(removeHobby(2));
 
-// dispatch another action
-store.dispatch({
-    type: 'REMOVE_MOVIE',
-    id: 1
-});
+// dispatch another action with action generator
+store.dispatch(removeMovie(1));
