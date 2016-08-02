@@ -16,7 +16,7 @@ var nextHobbyId = 1;
 var nextMovieId = 1;
 
 // reducer
-var reducer = (state = stateDefault, action) => {
+var oldReducer = (state = stateDefault, action) => {
     if (action.type === 'CHANGE_NAME') {
         return {
             ...state,
@@ -65,6 +65,65 @@ var reducer = (state = stateDefault, action) => {
     }
     return state;
 };
+
+
+// reducer to handle the name property in state
+// state is now a string as we are only passed the name element by the new reducer
+var nameReducer = (state = 'Anonymous', action) => {
+    if (action.type === 'CHANGE_NAME') {
+        // no longer returning an object, just returning the new string for the name property on state
+        return action.name;
+    }
+    return state;
+};
+
+// reducer for hobbies
+// state is now an array because we are only passed the element
+var hobbiesReducer = (state = [], action) => {
+    if (action.type === 'ADD_HOBBY') {
+        // no longer returning an object, returning an array
+        return [
+                ...state,
+                {
+                    id: nextHobbyId++,
+                    hobby: action.hobby
+                }
+            ];
+    }
+    if (action.type === 'REMOVE_HOBBY') {
+        return state.filter(function (hobby) {
+                return hobby.id !== action.id;
+            });
+    }
+    return state;
+};
+
+// reducer for movies
+// state is now an array because we are only passed the element
+var moviesReducer = (state = [], action) => {
+    if (action.type === 'ADD_MOVIE') {
+        return [
+                ...state,
+                {
+                    id: nextMovieId++,
+                    movie: action.movie
+                }
+            ];
+    }
+    if (action.type === 'REMOVE_MOVIE') {
+        return state.filter(function (movie) {
+                return movie.id !== action.id;
+            });
+    }
+    return state;
+};
+
+// map all the new reducers
+var reducer = redux.combineReducers({
+    name: nameReducer,
+    hobbies: hobbiesReducer,
+    movies: moviesReducer
+});
 
 // store - passing the reducer as arg
 var store = redux.createStore(reducer, redux.compose(
